@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      background: #87CEEB;
+      font-family: sans-serif;
+      display: flex; justify-content: center; align-items: flex-end;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .river {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25vh;
+      background: #1E90FF;
+      z-index: 1;
+    }
+
+    .island {
+      position: absolute;
+      bottom: 0;
+      width: 45vh;
+      height: 30vh;
+      background: #228B22;
+      border-radius: 10px;
+      z-index: 2;
+    }
+
+    .island.left { left: 0; }
+    .island.right { right: 0; }
+
+    .character {
+      position: absolute;
+      width: 14vh;
+      transition: left 1s ease, bottom 1s ease;
+      cursor: pointer;
+      z-index: 5;
+    }
+
+    .boat {
+      position: absolute;
+      width: 45vh;
+      bottom: 15vh;
+      z-index: 4;
+      transition: left 1s ease;
+      pointer-events: none;
+    }
+
+    .buttons {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+
+    .hidden { display: none !important; }
+
+    .text-overlay {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 2em;
+      color: crimson;
+      display: none;
+      z-index: 9999;
+    }
+
+    .game-over-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9998;
+      color: white;
+      font-size: 2em;
+    }
+
+    @media (orientation: portrait) {
+      body::before {
+        content: "Please rotate your device to landscape mode.";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 1.5em;
+        color: #333;
+        text-align: center;
+        z-index: 9999;
+      }
+      .scene {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="buttons">
+      <button onclick="moveBoat()">Move</button>
+      <button onclick="resetGame()">Reset</button>
+    </div>
+
+    <div id="overlay" class="text-overlay"></div>
+    <div id="gameOverScreen" class="game-over-screen">
+      <div id="gameOverMessage"></div>
+      <button onclick="resetGame()">Restart</button>
+    </div>
+
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/boat.png" class="boat" id="boat" />
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/missionary.png" class="character" id="m1" />
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/missionary.png" class="character" id="m2" />
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/missionary.png" class="character" id="m3" />
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/cannibal.png" class="character" id="c1" />
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/cannibal.png" class="character" id="c2" />
+    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/cannibal.png" class="character" id="c3" />
+
+    <div class="island left"></div>
+    <div class="island right"></div>
+    <div class="river"></div>
+  </div>
+
+  <script>
+    const boat = document.getElementById("boat");
+    const overlay = document.getElementById("overlay");
+    const gameOverScreen = document.getElementById("gameOverScreen");
+    const gameOverMessage = document.getElementById("gameOverMessage");
+
+    const characters = Array.from(document.querySelectorAll(".character"));
+    const onboard = [];
+    let boatSide = "left";
+    let gameOver = false;
+
+    const boatPositions = { left: "26vw", right: "70vw" };
+    const onboardOffsets = [5, 15]; // Closer distance between 2 people on boat
+    const state = {};
+
+    characters.forEach((el) => {
+      const id = el.id;
+      state[id] = "left";
+      el.addEventListener("click", () => {
+        if (gameOver) return;
+
+        if (state[id] === "boat") {
+          state[id] = boatSide;
+          onboard.splice(onboard.indexOf(id), 1);
+        } else if (state[id] === boatSide && onboard.length < 2) {
+          state[id] = "boat";
+          onboard.push(id);
+        }
+        updatePositions();
+      });
+    });
+
+    function updatePositions() {
+      boat.style.left = boatPositions[boatSide];
+
+      characters.forEach((el) => {
+        const id = el.id;
+        const idx = ["m1", "m2", "m3", "c1", "c2", "c3"].indexOf(id);
+
+        if (state[id] === "boat") {
+          const boatIdx = onboard.indexOf(id);
+          el.style.left = `calc(${boatPositions[boatSide]} + ${onboardOffsets[boatIdx]}vw)`;
+          el.style.bottom = "27vh";
+        } else if (state[id] === "left") {
+          el.style.left = `${5 + idx * 4}vw`;
+          el.style.bottom = "25vh";
+        } else if (state[id] === "right") {
+          el.style.left = `${70 + idx * 4}vw`;
+          el.style.bottom = "25vh";
+        }
+      });
+    }
+
+    function moveBoat() {
+      if (gameOver || onboard.length === 0) return;
+      boatSide = boatSide === "left" ? "right" : "left";
+
+      setTimeout(() => {
+        onboard.forEach(id => state[id] = boatSide);
+        onboard.length = 0;
+        updatePositions();
+        setTimeout(checkGameState, 800);
+      }, 1000);
+
+      updatePositions();
+    }
+
+    function checkGameState() {
+      const count = { left: { m: 0, c: 0 }, right: { m: 0, c: 0 } };
+
+      Object.keys(state).forEach(id => {
+        const side = state[id];
+        if (side === "boat") return;
+        if (id.startsWith("m")) count[side].m++;
+        if (id.startsWith("c")) count[side].c++;
+      });
+
+      onboard.forEach(id => {
+        const side = boatSide;
+        if (id.startsWith("m")) count[side].m++;
+        if (id.startsWith("c")) count[side].c++;
+      });
+
+      ["left", "right"].forEach(side => {
+        if (count[side].m > 0 && count[side].c > count[side].m) {
+          overlay.textContent = `💀 Cannibals ate the Missionaries on the ${side} side!`;
+          overlay.style.display = "block";
+          gameOver = true;
+          setTimeout(() => {
+            overlay.style.display = "none";
+            gameOverScreen.style.display = "flex";
+            gameOverMessage.textContent = "💀 Game Over";
+          }, 1500);
+        }
+      });
+
+      const allRight = characters.every(c => state[c.id] === "right");
+      if (allRight) {
+        gameOver = true;
+        gameOverScreen.style.display = "flex";
+        gameOverMessage.textContent = "🎉 Congratulations! You Win!";
+      }
+    }
+
+    function resetGame() {
+      characters.forEach(c => {
+        state[c.id] = "left";
+        c.style.opacity = "1";
+      });
+      onboard.length = 0;
+      boatSide = "left";
+      gameOver = false;
+      overlay.style.display = "none";
+      gameOverScreen.style.display = "none";
+      gameOverMessage.textContent = "";
+      updatePositions();
+    }
+
+    updatePositions();
+  </script>
+</body>
+</html>
