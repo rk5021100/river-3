@@ -41,13 +41,13 @@
 .character, .bag {
   position: absolute;
   z-index: 5;
-  width: 8vh;
+  width: 12vh;
   cursor: pointer;
   transition: left 1s ease, bottom 1s ease;
 }
 
 .bag {
-  width: 6vh;
+  width: 9vh;
 }
 
 .boat {
@@ -168,7 +168,8 @@ button {
       let left;
       if (item.onBoat) {
         const boatX = boatSide === 'left' ? leftX : rightX;
-        left = boatX + 5 + item.offset;
+        const boatPositionIndex = getBoatLoadIndex(id);
+        left = boatX + 5 + boatPositionIndex * 8;
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '16vh' : '25vh';
       } else {
@@ -177,6 +178,11 @@ button {
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '14vh' : '25vh';
       }
+    }
+
+    function getBoatLoadIndex(id) {
+      const idsOnBoat = Object.keys(items).filter(k => items[k].onBoat);
+      return idsOnBoat.indexOf(id) % 2; // Only 2 positions: 0 or 1
     }
 
     function moveBoat() {
