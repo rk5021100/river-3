@@ -145,8 +145,8 @@ button {
 <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowbag.png" class="bag" id="b3">
 
   </div>  <script>
-    const leftX = 10;
-    const rightX = 70;
+    const leftX = 20;
+    const rightX = 65;
     const boat = document.getElementById('boat');
     const gameOverScreen = document.getElementById('gameOverScreen');
     const gameOverMessage = document.getElementById('gameOverMessage');
@@ -155,11 +155,11 @@ button {
 
     const items = {
       t8: { type: 'thief', weight: 8, side: 'left', onBoat: false, offset: 0 },
-      t5: { type: 'thief', weight: 5, side: 'left', onBoat: false, offset: 6 },
-      t3: { type: 'thief', weight: 3, side: 'left', onBoat: false, offset: 12 },
+      t5: { type: 'thief', weight: 5, side: 'left', onBoat: false, offset: 5 },
+      t3: { type: 'thief', weight: 3, side: 'left', onBoat: false, offset: 10 },
       b8: { type: 'bag', weight: 8, side: 'left', onBoat: false, offset: 0 },
-      b5: { type: 'bag', weight: 5, side: 'left', onBoat: false, offset: 6 },
-      b3: { type: 'bag', weight: 3, side: 'left', onBoat: false, offset: 12 }
+      b5: { type: 'bag', weight: 5, side: 'left', onBoat: false, offset: 5 },
+      b3: { type: 'bag', weight: 3, side: 'left', onBoat: false, offset: 10 }
     };
 
     function updatePosition(id) {
@@ -170,12 +170,12 @@ button {
         const boatX = boatSide === 'left' ? leftX : rightX;
         left = boatX + 5 + item.offset;
         el.style.left = `${left}vw`;
-        el.style.bottom = id.includes('b') ? '22vh' : '30vh';
+        el.style.bottom = id.includes('b') ? '16vh' : '25vh';
       } else {
         if (item.side === 'left') left = 5 + item.offset;
         else left = 95 - item.offset;
         el.style.left = `${left}vw`;
-        el.style.bottom = id.includes('b') ? '20vh' : '30vh';
+        el.style.bottom = id.includes('b') ? '14vh' : '25vh';
       }
     }
 
