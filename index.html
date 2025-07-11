@@ -1,311 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=0.0, user-scalable=no">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html, body {
       width: 100vw;
       height: 100vh;
-      background: #cce7ff;
+      background: #87CEEB;
       overflow: hidden;
       font-family: sans-serif;
-    }
-
-    .scene {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .river {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 25vh;
-      background: #3399ff;
-      z-index: 1;
-    }
-
-    .island {
-      position: absolute;
-      bottom: 0;
-      width: 20vw;
-      height: 30vh;
-      background: #228B22;
-      border-radius: 15px;
-      z-index: 2;
-    }
-
-    .left { left: 2vw; }
-    .right { right: 2vw; }
-
-    .character, .bag {
-      position: absolute;
-      z-index: 5;
-      width: 24vh;
-      cursor: pointer;
-      transition: left 1s ease, bottom 1s ease;
-    }
-
-    .bag { width: 13vh; }
-
-    .boat {
-      position: absolute;
-      bottom: 12vh;
-      width: 20vw;
-      left: 20vw;
-      transition: left 1s ease;
-      z-index: 3;
-    }
-
-    .buttons {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
-      gap: 10px;
-      z-index: 10;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .game-over-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.7);
-      display: none;
       justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      font-size: 2em;
-      z-index: 9999;
-    }
+      align-items: flex-end;
+    }.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
 
-    .game-over-screen button {
-      margin-top: 20px;
-      font-size: 1rem;
-      padding: 10px 20px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+.river {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25vh;
+  background: #1E90FF;
+  z-index: 1;
+}
 
-    .shake { animation: shake 0.5s infinite; }
-    .red-flash { animation: flash 0.5s alternate infinite; }
+.island {
+  position: absolute;
+  bottom: 0;
+  width: 50vh;
+  height: 30vh;
+  background: #228B22;
+  border-radius: 15px;
+  z-index: 2;
+}
 
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
-    }
+.island.left { left: 0; }
+.island.right { right: 0; }
 
-    @keyframes flash {
-      from { filter: brightness(1); }
-      to { filter: brightness(3) hue-rotate(10deg); }
-    }
+.character {
+  position: absolute;
+  z-index: 5;
+  cursor: pointer;
+  transition: all 1s ease;
+}
+
+/* Custom Sizes */
+#redman { width: 18vh; }
+#blueman { width: 16vh; }
+#yellowman { width: 15vh; }
+#redbag { width: 13vh; }
+#bluebag { width: 12vh; }
+#yellowbag { width: 11vh; }
+
+.boat {
+  position: absolute;
+  width: 40vh;
+  height: auto;
+  bottom: 18vh;
+  left: 20vw;
+  z-index: 4;
+  transition: left 1s ease;
+  pointer-events: none;
+}
+
+.button-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 3vw;
+}
+
+button {
+  padding: 2vh 4vw;
+  font-size: 2.5vw;
+  font-weight: bold;
+  background: #fff;
+  border: 0.3vh solid #333;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 3em;
+  z-index: 999;
+}
+
+.overlay button {
+  margin-top: 20px;
+  font-size: 3em;
+}
+
+.eaten {
+  animation: flashRed 0.8s ease;
+}
+
+@keyframes flashRed {
+  0% { background-color: crimson; }
+  100% { background-color: transparent; }
+}
+
+@media (orientation: portrait) {
+  body::before {
+    content: "Please rotate your device to landscape mode.";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 50px;
+    border-radius: 20px;
+    font-size: 3em;
+    color: #333;
+    text-align: center;
+    z-index: 1000;
+  }
+  .scene {
+    display: none;
+  }
+}
+
   </style>
 </head>
 <body>
-  <div class="scene">
-    <div class="buttons">
-      <button onclick="moveBoat()">Move</button>
-      <button onclick="resetGame()">Reset</button>
-    </div>
-
-    <div class="game-over-screen" id="gameOverScreen">
-      <div id="gameOverMessage"></div>
-      <button onclick="resetGame()">Restart</button>
-    </div>
-
-    <div class="island left"></div>
-    <div class="island right"></div>
-    <div class="river"></div>
-
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/boat.png" class="boat" id="boat">
-
-    <!-- Characters -->
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redman.png" class="character" id="t8">
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/blueman.png" class="character" id="t5">
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowman.png" class="character" id="t3">
-
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redbag.png" class="bag" id="b8">
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/bluebag.png" class="bag" id="b5">
-    <img src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowbag.png" class="bag" id="b3">
+<div class="scene">
+  <div class="button-container">
+    <button onclick="moveBoat()">Move</button>
+    <button onclick="resetGame()">Reset</button>
+  </div>  <img id="redman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redman.png">
+  <img id="blueman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/blueman.png">
+  <img id="yellowman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowman.png">
+  <img id="redbag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redbag.png">
+  <img id="bluebag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/bluebag.png">
+  <img id="yellowbag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowbag.png">  <img class="boat" id="boat" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/boat.png">  <div class="island left"></div>
+  <div class="island right"></div>
+  <div class="river"></div>  <div id="overlay" class="overlay">
+    <div id="message"></div>
+    <button onclick="resetGame()">Restart</button>
   </div>
+</div><script>
+const boat = document.getElementById("boat");
+const characters = Array.from(document.querySelectorAll(".character"));
+const overlay = document.getElementById("overlay");
+const message = document.getElementById("message");
 
-  <script>
-    const leftX = 20, rightX = 65;
-    const boat = document.getElementById('boat');
-    const gameOverScreen = document.getElementById('gameOverScreen');
-    const gameOverMessage = document.getElementById('gameOverMessage');
-    let boatSide = 'left';
-    let gameOver = false;
+let boatOccupants = [];
+let boatSide = "left";
+const boatLeft = 20;
+const boatRight = 65;
 
-    const items = {
-      t8: { type: 'thief', weight: 8, side: 'left', onBoat: false, offset: 0 },
-      t5: { type: 'thief', weight: 5, side: 'left', onBoat: false, offset: 8 },
-      t3: { type: 'thief', weight: 3, side: 'left', onBoat: false, offset: 16 },
-      b8: { type: 'bag', weight: 8, side: 'left', onBoat: false, offset: 0 },
-      b5: { type: 'bag', weight: 5, side: 'left', onBoat: false, offset: 8 },
-      b3: { type: 'bag', weight: 3, side: 'left', onBoat: false, offset: 16 }
-    };
+const characterState = {};
 
-    let boatSlots = [null, null];
+const values = {
+  redman: 8, blueman: 5, yellowman: 3,
+  redbag: 8, bluebag: 5, yellowbag: 3
+};
 
-    function updatePosition(id) {
-      const el = document.getElementById(id);
-      const item = items[id];
+const defaultPositions = {
+  redman: { left: 5, bottom: 25 }, blueman: { left: 10, bottom: 25 }, yellowman: { left: 15, bottom: 25 },
+  redbag: { left: 5, bottom: 12 }, bluebag: { left: 10, bottom: 12 }, yellowbag: { left: 15, bottom: 12 }
+};
 
-      if (item.onBoat) {
-        const index = boatSlots.indexOf(id);
-        const boatX = boatSide === 'left' ? leftX : rightX;
-        const offsets = [2, 9];
-        const left = boatX + offsets[index];
-        el.style.left = `${left}vw`;
-        el.style.bottom = '21vh';
-      } else {
-        const left = item.side === 'left' ? (2 + item.offset) : (75 + item.offset);
-        el.style.left = `${left}vw`;
-        el.style.bottom = id.includes('b') ? '14vh' : '25vh';
-      }
+characters.forEach(char => {
+  const id = char.id;
+  characterState[id] = "left";
+  char.addEventListener("click", () => {
+    if (overlay.style.display === "flex") return;
+    if (characterState[id] === "boat") {
+      characterState[id] = boatSide;
+      boatOccupants = boatOccupants.filter(c => c !== id);
+    } else if (characterState[id] === boatSide && boatOccupants.length < 2) {
+      characterState[id] = "boat";
+      boatOccupants.push(id);
     }
+    updatePositions();
+  });
+});
 
-    function moveBoat() {
-      if (gameOver) return;
-      if (!boatSlots.some(id => id && items[id].type === 'thief')) {
-        alert("At least one thief must be on the boat");
-        return;
-      }
-
-      boatSide = boatSide === 'left' ? 'right' : 'left';
-      boat.style.left = (boatSide === 'left' ? leftX : rightX) + 'vw';
-
-      for (const id of boatSlots) {
-        if (id) items[id].side = boatSide;
-        updatePosition(id);
-      }
-
-      setTimeout(() => {
-        const stolen = checkStealing();
-        if (stolen.length > 0) {
-          animateStealing(stolen);
-          showGameOver("💀 Stealing occurred! Game Over");
-        } else if (checkWin()) {
-          showGameOver("🎉 All safe on right side! You Win!");
-        }
-      }, 1000);
+function updatePositions() {
+  boat.style.left = boatSide === "left" ? `${boatLeft}vw` : `${boatRight}vw`;
+  characters.forEach(char => {
+    const id = char.id;
+    const state = characterState[id];
+    const isInBoat = state === "boat";
+    char.style.zIndex = isInBoat ? "3" : "5";
+    if (isInBoat) {
+      const offset = boatSide === "left" ? boatLeft : boatRight;
+      const seat = boatOccupants.indexOf(id);
+      char.style.left = `${offset + (seat === 0 ? 3 : 7)}vw`;
+      char.style.bottom = "28vh";
+    } else {
+      const pos = defaultPositions[id];
+      const left = state === "left" ? pos.left : 72 + pos.left;
+      char.style.left = `${left}vw`;
+      char.style.bottom = `${pos.bottom}vh`;
     }
-
-    function checkStealing() {
-      const sides = { left: [], right: [] }, stolen = [];
-      for (const id in items) {
-        if (!items[id].onBoat) sides[items[id].side].push({ id, ...items[id] });
-      }
-
-      for (const side in sides) {
-        const thieves = sides[side].filter(x => x.type === 'thief');
-        const bags = sides[side].filter(x => x.type === 'bag');
-        const bagWeights = bags.map(b => b.weight).sort((a,b) => a-b);
-        const thiefValue = thieves.reduce((a,b)=>a+b.weight, 0);
-        const bagSum = bagWeights.reduce((a,b)=>a+b, 0);
-        const bagCombo = bagWeights.join('+');
-
-        if (bagSum > thiefValue && isStealingCombo(thieves.map(t=>t.weight), bagWeights)) {
-          stolen.push(...bags.map(b=>b.id));
-        }
-      }
-      return stolen;
-    }
-
-    function isStealingCombo(thieves, bags) {
-  const s = bags.slice().sort((a,b) => a - b).join('+');
-  if (thieves.length === 1) {
-    const t = thieves[0];
-    if (t === 3) return ['5','8','3+5','3+8','5+8','3+5+8'].includes(s);
-    if (t === 5) return ['8','3+5','5+8','3+8','3+5+8'].includes(s);
-    if (t === 8) return ['3+8','5+8','3+5+8'].includes(s);
-  } else if (thieves.length === 2) {
-    if (thieves.includes(3) && thieves.includes(5)) return ['3+8','5+8','3+5+8'].includes(s);
-    if (thieves.includes(3) && thieves.includes(8)) return ['5+8','3+5+8'].includes(s);
-    if (thieves.includes(5) && thieves.includes(8)) return ['3+5+8'].includes(s);
-  }
-  return false;
+  });
 }
 
-    function animateStealing(ids) {
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        el.classList.add('shake', 'red-flash');
-      }
-      setTimeout(() => {
-        for (const id of ids) {
-          const el = document.getElementById(id);
-          el.classList.remove('shake', 'red-flash');
-        }
-      }, 3000);
+function moveBoat() {
+  const hasThief = boatOccupants.some(id => id.includes("man"));
+  if (!hasThief || boatOccupants.length === 0) return;
+  boatSide = boatSide === "left" ? "right" : "left";
+  boatOccupants.forEach(id => characterState[id] = "boat");
+  updatePositions();
+  setTimeout(() => {
+    boatOccupants.forEach(id => characterState[id] = boatSide);
+    boatOccupants = [];
+    updatePositions();
+    checkGameState();
+  }, 1000);
+}
+
+function checkGameState() {
+  const count = { left: { thief: 0, bag: 0 }, right: { thief: 0, bag: 0 } };
+  for (const id in characterState) {
+    let side = characterState[id];
+    if (side === "boat") side = boatSide;
+    const isThief = id.includes("man");
+    const isBag = id.includes("bag");
+    if (isThief) count[side].thief += values[id];
+    if (isBag) count[side].bag += values[id];
+  }
+
+  ["left", "right"].forEach(side => {
+    if (count[side].thief > 0 && count[side].bag > count[side].thief) {
+      document.body.classList.add("eaten");
+      showEnd(`💰 Bags were stolen on the ${side} island!`);
     }
+  });
 
-    function checkWin() {
-      return Object.values(items).every(i => i.side === 'right' && !i.onBoat);
-    }
+  const allRight = characters.every(c => characterState[c.id] === "right");
+  if (allRight) showEnd("🎉 All Thieves and Bags Crossed Safely!");
+}
 
-    function showGameOver(msg) {
-      gameOver = true;
-      gameOverMessage.textContent = msg;
-      gameOverScreen.style.display = 'flex';
-    }
+function showEnd(msg) {
+  overlay.style.display = "flex";
+  message.textContent = msg;
+}
 
-    function resetGame() {
-      gameOver = false;
-      boatSide = 'left';
-      boat.style.left = leftX + 'vw';
-      boatSlots = [null, null];
-      gameOverScreen.style.display = 'none';
-      for (const id in items) {
-        items[id].side = 'left';
-        items[id].onBoat = false;
-        document.getElementById(id).classList.remove('shake','red-flash');
-        updatePosition(id);
-      }
-    }
+function resetGame() {
+  overlay.style.display = "none";
+  message.textContent = "";
+  boatSide = "left";
+  boatOccupants = [];
+  characters.forEach(c => {
+    characterState[c.id] = "left";
+  });
+  document.body.classList.remove("eaten");
+  updatePositions();
+}
 
-    for (const id in items) {
-      document.getElementById(id).onclick = () => {
-        if (gameOver || items[id].side !== boatSide) return;
-        const index = boatSlots.indexOf(id);
-
-        if (items[id].onBoat) {
-          boatSlots[index] = null;
-          items[id].onBoat = false;
-        } else {
-          const emptyIndex = boatSlots.indexOf(null);
-          if (emptyIndex === -1) {
-            alert("Only 2 items can be on the boat!");
-            return;
-          }
-          boatSlots[emptyIndex] = id;
-          items[id].onBoat = true;
-        }
-
-        updatePosition(id);
-      };
-      updatePosition(id);
-    }
-  </script>
-</body>
+updatePositions();
+</script></body>
 </html>
