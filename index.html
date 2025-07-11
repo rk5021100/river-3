@@ -50,11 +50,11 @@
 
 /* Custom Sizes */
 #redman { width: 18vh; }
-#blueman { width: 16vh; }
-#yellowman { width: 15vh; }
-#redbag { width: 13vh; }
+#blueman { width: 18vh; }
+#yellowman { width: 18vh; }
+#redbag { width: 12vh; }
 #bluebag { width: 12vh; }
-#yellowbag { width: 11vh; }
+#yellowbag { width: 12vh; }
 
 .boat {
   position: absolute;
@@ -115,6 +115,17 @@ button {
 @keyframes flashRed {
   0% { background-color: crimson; }
   100% { background-color: transparent; }
+}
+
+@keyframes thiefJump {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-30px); }
+  60% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.thief-jump {
+  animation: thiefJump 0.6s ease;
 }
 
 @media (orientation: portrait) {
@@ -243,6 +254,14 @@ function checkGameState() {
   ["left", "right"].forEach(side => {
     if (count[side].thief > 0 && count[side].bag > count[side].thief) {
       document.body.classList.add("eaten");
+      characters.forEach(char => {
+        const id = char.id;
+        const charSide = characterState[id] === "boat" ? boatSide : characterState[id];
+        if (id.includes("man") && charSide === side) {
+          char.classList.add("thief-jump");
+          setTimeout(() => char.classList.remove("thief-jump"), 600);
+        }
+      });
       showEnd(`💰 Bags were stolen on the ${side} island!`);
     }
   });
@@ -263,6 +282,7 @@ function resetGame() {
   boatOccupants = [];
   characters.forEach(c => {
     characterState[c.id] = "left";
+    c.classList.remove("thief-jump");
   });
   document.body.classList.remove("eaten");
   updatePositions();
