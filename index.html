@@ -233,19 +233,19 @@
     }
 
     function isStealingCombo(thieves, bags) {
-      const s = bags.join('+');
-      if (thieves.length === 1) {
-        const t = thieves[0];
-        if (t === 3) return ['5','8','3+5','3+8','5+8','3+5+8'].includes(s);
-        if (t === 5) return ['8','3+5','5+8','3+8','3+5+8'].includes(s);
-        if (t === 8) return ['3+8','5+8','3+5+8'].includes(s);
-      } else if (thieves.length === 2) {
-        if (thieves.includes(3) && thieves.includes(5)) return ['3+8','5+8','3+5+8'].includes(s);
-        if (thieves.includes(3) && thieves.includes(8)) return ['5+8','3+5+8'].includes(s);
-        if (thieves.includes(5) && thieves.includes(8)) return ['3+5+8'].includes(s);
-      }
-      return false;
-    }
+  const s = bags.slice().sort((a,b) => a - b).join('+');
+  if (thieves.length === 1) {
+    const t = thieves[0];
+    if (t === 3) return ['5','8','3+5','3+8','5+8','3+5+8'].includes(s);
+    if (t === 5) return ['8','3+5','5+8','3+8','3+5+8'].includes(s);
+    if (t === 8) return ['3+8','5+8','3+5+8'].includes(s);
+  } else if (thieves.length === 2) {
+    if (thieves.includes(3) && thieves.includes(5)) return ['3+8','5+8','3+5+8'].includes(s);
+    if (thieves.includes(3) && thieves.includes(8)) return ['5+8','3+5+8'].includes(s);
+    if (thieves.includes(5) && thieves.includes(8)) return ['3+5+8'].includes(s);
+  }
+  return false;
+}
 
     function animateStealing(ids) {
       for (const id of ids) {
