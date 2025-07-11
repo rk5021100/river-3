@@ -57,6 +57,7 @@
       position: absolute;
       bottom: 12vh;
       width: 20vw;
+      left: 20vw; /* Initial position */
       transition: left 1s ease;
       z-index: 3;
     }
@@ -174,7 +175,7 @@
       if (item.onBoat) {
         const boatX = boatSide === 'left' ? leftX : rightX;
         const boatPositionIndex = getBoatLoadIndex(id);
-        left = boatX + 5 + boatPositionIndex * 8;
+        left = boatX + 4 + boatPositionIndex * 10;
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '16vh' : '25vh';
       } else {
@@ -192,7 +193,10 @@
 
     function moveBoat() {
       if (gameOver) return;
-      if (!Object.values(items).some(i => i.onBoat && i.type === 'thief')) return alert("At least one thief must be on the boat");
+      if (!Object.values(items).some(i => i.onBoat && i.type === 'thief')) {
+        alert("At least one thief must be on the boat");
+        return;
+      }
 
       boatSide = boatSide === 'left' ? 'right' : 'left';
       boat.style.left = (boatSide === 'left' ? leftX : rightX) + 'vw';
@@ -206,9 +210,9 @@
         const stolen = checkStealing();
         if (stolen.length > 0) {
           animateStealing(stolen);
-          showGameOver("\ud83d\udc80 Stealing occurred! Game Over");
+          showGameOver("💀 Stealing occurred! Game Over");
         } else if (checkWin()) {
-          showGameOver("\ud83c\udf89 All safe on right side! You Win!");
+          showGameOver("🎉 All safe on right side! You Win!");
         }
       }, 1000);
     }
@@ -252,6 +256,13 @@
         const el = document.getElementById(id);
         el.classList.add('shake', 'red-flash');
       }
+
+      setTimeout(() => {
+        for (const id of ids) {
+          const el = document.getElementById(id);
+          el.classList.remove('shake', 'red-flash');
+        }
+      }, 3000);
     }
 
     function checkWin() {
@@ -279,8 +290,14 @@
 
     for (const id in items) {
       document.getElementById(id).onclick = () => {
-        if (gameOver) return;
-        if (items[id].side !== boatSide) return;
+        if (gameOver || items[id].side !== boatSide) return;
+
+        const onBoatCount = Object.values(items).filter(i => i.onBoat).length;
+        if (!items[id].onBoat && onBoatCount >= 2) {
+          alert("Only 2 items can be on the boat!");
+          return;
+        }
+
         items[id].onBoat = !items[id].onBoat;
         updatePosition(id);
       }
