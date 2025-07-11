@@ -68,13 +68,13 @@
     .character, .bag {
       position: absolute;
       z-index: 5;
-      width: 20vh; /* size increase */
+      width: 24vh; /* size increase */
       cursor: pointer;
       transition: left 1s ease, bottom 1s ease;
     }
 
     .bag {
-      width: 16vh;
+      width: 13vh;
     }
 
     .boat {
@@ -203,10 +203,10 @@
       if (item.onBoat) {
         const index = boatSlots.indexOf(id);
         const boatX = boatSide === 'left' ? leftX : rightX;
-        const offsets = [2, 10]; // fixed slot positions in vw
+        const offsets = [5, 9]; // fixed slot positions in vw
         const left = boatX + offsets[index];
         el.style.left = `${left}vw`;
-        el.style.bottom = id.includes('b') ? '25vh' : '25vh';
+        el.style.bottom = id.includes('b') ? '21vh' : '21vh';
       } else {
         let left;
         if (item.side === 'left') {
