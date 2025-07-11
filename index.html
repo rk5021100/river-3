@@ -208,7 +208,12 @@
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '16vh' : '25vh';
       } else {
-        let left = item.side === 'left' ? 5 + item.offset : 95 - item.offset;
+        let left;
+        if (item.side === 'left') {
+          left = 5 + item.offset;
+        } else {
+          left = 75 + item.offset; // Adjusted so big images fit in view
+        }
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '14vh' : '25vh';
       }
