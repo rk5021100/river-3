@@ -203,10 +203,10 @@
       if (item.onBoat) {
         const index = boatSlots.indexOf(id);
         const boatX = boatSide === 'left' ? leftX : rightX;
-        const offsets = [4, 12]; // fixed slot positions in vw
+        const offsets = [2, 10]; // fixed slot positions in vw
         const left = boatX + offsets[index];
         el.style.left = `${left}vw`;
-        el.style.bottom = id.includes('b') ? '16vh' : '25vh';
+        el.style.bottom = id.includes('b') ? '25vh' : '25vh';
       } else {
         let left;
         if (item.side === 'left') {
