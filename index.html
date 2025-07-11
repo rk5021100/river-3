@@ -44,18 +44,18 @@
     .character, .bag {
       position: absolute;
       z-index: 5;
-      width: 12vh;
+      width: 18vh;
       cursor: pointer;
       transition: left 1s ease, bottom 1s ease;
     }
 
     .bag {
-      width: 9vh;
+      width: 13vh;
     }
 
     .boat {
       position: absolute;
-      bottom: 12vh;
+      bottom: 25vh;
       width: 20vw;
       left: 20vw; /* Initial position */
       transition: left 1s ease;
@@ -168,19 +168,26 @@
       b3: { type: 'bag', weight: 3, side: 'left', onBoat: false, offset: 10 }
     };
 
+    let boatSlots = [null, null]; // Two fixed slots
+
     function updatePosition(id) {
       const el = document.getElementById(id);
       const item = items[id];
-      let left;
+
       if (item.onBoat) {
+        const index = boatSlots.indexOf(id);
         const boatX = boatSide === 'left' ? leftX : rightX;
-        const boatPositionIndex = getBoatLoadIndex(id);
-        left = boatX + 4 + boatPositionIndex * 10;
+        const offsets = [2, 9]; // positions in vw
+        const left = boatX + offsets[index];
         el.style.left = `${left}vw`;
-        el.style.bottom = id.includes('b') ? '16vh' : '25vh';
+        el.style.bottom = id.includes('b') ? '21vh' : '21vh';
       } else {
-        if (item.side === 'left') left = 5 + item.offset;
-        else left = 95 - item.offset;
+        let left;
+        if (item.side === 'left') {
+          left = 2 + item.offset;
+        } else {
+          left = 75 + item.offset;
+        }
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '14vh' : '25vh';
       }
