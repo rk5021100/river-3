@@ -262,7 +262,7 @@
     }
 
     function isStealingCombo(thieves, bags) {
-      const s = bags.join('+');
+      const s = [...bags].sort((a, b) => a - b).join('+');
       if (thieves.length === 1) {
         const t = thieves[0];
         if (t === 3) return ['5','8','3+5','3+8','5+8','3+5+8'].includes(s);
