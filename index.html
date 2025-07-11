@@ -13,7 +13,6 @@
       font-family: sans-serif;
     }
 
-    /* Orientation prompt */
     #rotateMessage {
       display: none;
       position: fixed;
@@ -31,9 +30,7 @@
     }
 
     @media screen and (orientation: portrait) {
-      #rotateMessage {
-        display: flex;
-      }
+      #rotateMessage { display: flex; }
       .scene { display: none; }
     }
 
@@ -68,20 +65,18 @@
     .character, .bag {
       position: absolute;
       z-index: 5;
-      width: 24vh; /* size increase */
+      width: 24vh;
       cursor: pointer;
       transition: left 1s ease, bottom 1s ease;
     }
 
-    .bag {
-      width: 13vh;
-    }
+    .bag { width: 13vh; }
 
     .boat {
       position: absolute;
       bottom: 12vh;
       width: 20vw;
-      left: 20vw; /* Initial position */
+      left: 20vw;
       transition: left 1s ease;
       z-index: 3;
     }
@@ -187,11 +182,11 @@
 
     const items = {
       t8: { type: 'thief', weight: 8, side: 'left', onBoat: false, offset: 0 },
-      t5: { type: 'thief', weight: 5, side: 'left', onBoat: false, offset: 5 },
-      t3: { type: 'thief', weight: 3, side: 'left', onBoat: false, offset: 10 },
+      t5: { type: 'thief', weight: 5, side: 'left', onBoat: false, offset: 8 },
+      t3: { type: 'thief', weight: 3, side: 'left', onBoat: false, offset: 16 },
       b8: { type: 'bag', weight: 8, side: 'left', onBoat: false, offset: 0 },
-      b5: { type: 'bag', weight: 5, side: 'left', onBoat: false, offset: 5 },
-      b3: { type: 'bag', weight: 3, side: 'left', onBoat: false, offset: 10 }
+      b5: { type: 'bag', weight: 5, side: 'left', onBoat: false, offset: 8 },
+      b3: { type: 'bag', weight: 3, side: 'left', onBoat: false, offset: 16 }
     };
 
     let boatSlots = [null, null]; // Two fixed slots
@@ -203,7 +198,7 @@
       if (item.onBoat) {
         const index = boatSlots.indexOf(id);
         const boatX = boatSide === 'left' ? leftX : rightX;
-        const offsets = [5, 9]; // fixed slot positions in vw
+        const offsets = [2, 9]; // positions in vw
         const left = boatX + offsets[index];
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '21vh' : '21vh';
@@ -212,7 +207,7 @@
         if (item.side === 'left') {
           left = 5 + item.offset;
         } else {
-          left = 75 + item.offset; // Adjusted so big images fit in view
+          left = 75 + item.offset;
         }
         el.style.left = `${left}vw`;
         el.style.bottom = id.includes('b') ? '14vh' : '25vh';
@@ -255,9 +250,9 @@
         const thieves = sides[side].filter(x => x.type === 'thief');
         const bags = sides[side].filter(x => x.type === 'bag');
         const bagWeights = bags.map(b => b.weight).sort((a,b) => a-b);
-        const bagSet = bagWeights.join('+');
         const thiefValue = thieves.reduce((a,b)=>a+b.weight, 0);
         const bagSum = bagWeights.reduce((a,b)=>a+b, 0);
+        const bagCombo = bagWeights.join('+');
 
         if (bagSum > thiefValue && isStealingCombo(thieves.map(t=>t.weight), bagWeights)) {
           stolen.push(...bags.map(b=>b.id));
@@ -326,11 +321,9 @@
         const index = boatSlots.indexOf(id);
 
         if (items[id].onBoat) {
-          // Remove from boat
           boatSlots[index] = null;
           items[id].onBoat = false;
         } else {
-          // Add to boat if space available
           const emptyIndex = boatSlots.indexOf(null);
           if (emptyIndex === -1) {
             alert("Only 2 items can be on the boat!");
@@ -341,7 +334,7 @@
         }
 
         updatePosition(id);
-      }
+      };
       updatePosition(id);
     }
   </script>
