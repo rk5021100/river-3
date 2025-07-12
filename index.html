@@ -174,8 +174,8 @@
   <!-- Win/Lose Overlay -->
   <div id="overlay" class="overlay">
   <div id="message" style="font-size: 3em; text-align: center; padding: 20px;"></div>
-  <button onclick="resetGame()" style="font-size: 2em; padding: 10px 30px; margin-top: 20px;">Restart</button>
-  </div>
+  <div id="overlayButtons" style="margin-top: 20px;"></div>
+</div>
 
   <!-- Rules Overlay -->
   <div id="rulesOverlay" class="overlay">
@@ -298,12 +298,31 @@ function checkGameState() {
   });
 
   const allRight = characters.every(c => characterState[c.id] === "right");
-  if (allRight) showEnd("🎉 All Thieves and Bags Crossed Safely!");
+  if (allRight) showEnd("🎉 All Thieves and Bags Crossed Safely!",true);
 }
 
-function showEnd(msg) {
+function showEnd(msg, isWin = false) {
   overlay.style.display = "flex";
   message.textContent = msg;
+
+  const buttonsContainer = document.getElementById("overlayButtons");
+  buttonsContainer.innerHTML = ""; // Clear previous buttons
+
+  if (isWin) {
+    const menuButton = document.createElement("button");
+    menuButton.textContent = "Menu";
+    menuButton.style.fontSize = "2em";
+    menuButton.style.padding = "10px 30px";
+    menuButton.onclick = () => window.location.href = "https://rk5021100.github.io/River-puzzles/";
+    buttonsContainer.appendChild(menuButton);
+  } else {
+    const restartButton = document.createElement("button");
+    restartButton.textContent = "Restart";
+    restartButton.style.fontSize = "2em";
+    restartButton.style.padding = "10px 30px";
+    restartButton.onclick = resetGame;
+    buttonsContainer.appendChild(restartButton);
+  }
 }
 
 function resetGame() {
