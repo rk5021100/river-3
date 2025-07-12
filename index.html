@@ -12,142 +12,142 @@
       display: flex;
       justify-content: center;
       align-items: flex-end;
-    }.scene {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
+    }
 
-.river {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 25vh;
-  background: #1E90FF;
-  z-index: 1;
-}
+    .scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
 
-.island {
-  position: absolute;
-  bottom: 0;
-  width: 50vh;
-  height: 30vh;
-  background: #228B22;
-  border-radius: 15px;
-  z-index: 2;
-}
+    .river {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25vh;
+      background: #1E90FF;
+      z-index: 1;
+    }
 
-.island.left { left: 0; }
-.island.right { right: 0; }
+    .island {
+      position: absolute;
+      bottom: 0;
+      width: 50vh;
+      height: 30vh;
+      background: #228B22;
+      border-radius: 15px;
+      z-index: 2;
+    }
 
-.character {
-  position: absolute;
-  z-index: 5;
-  cursor: pointer;
-  transition: all 1s ease;
-}
+    .island.left { left: 0; }
+    .island.right { right: 0; }
 
-/* Custom Sizes */
-#redman { width: 10vh; }
-#blueman { width: 9vh; }
-#yellowman { width: 9vh; }
-#redbag { width: 12vh; }
-#bluebag { width: 12vh; }
-#yellowbag { width: 12vh; }
+    .character {
+      position: absolute;
+      z-index: 5;
+      cursor: pointer;
+      transition: all 1s ease;
+    }
 
-.boat {
-  position: absolute;
-  width: 40vh;
-  height: auto;
-  bottom: 18vh;
-  left: 20vw;
-  z-index: 4;
-  transition: left 1s ease;
-  pointer-events: none;
-}
+    #redman { width: 10vh; }
+    #blueman { width: 9vh; }
+    #yellowman { width: 9vh; }
+    #redbag { width: 12vh; }
+    #bluebag { width: 12vh; }
+    #yellowbag { width: 12vh; }
 
-.button-container {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  gap: 3vw;
-}
+    .boat {
+      position: absolute;
+      width: 40vh;
+      height: auto;
+      bottom: 18vh;
+      left: 20vw;
+      z-index: 4;
+      transition: left 1s ease;
+      pointer-events: none;
+    }
 
-button {
-  padding: 2vh 4vw;
-  font-size: 1.5vw;
-  font-weight: bold;
-  background: #fff;
-  border: 0.3vh solid #333;
-  border-radius: 1vh;
-  cursor: pointer;
-}
+    .button-container {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      gap: 3vw;
+    }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-size: 1.5em;
-  z-index: 999;
-}
+    button {
+      padding: 2vh 4vw;
+      font-size: 1.5vw;
+      font-weight: bold;
+      background: #fff;
+      border: 0.3vh solid #333;
+      border-radius: 1vh;
+      cursor: pointer;
+    }
 
-.overlay button {
-  margin-top: 20px;
-  font-size: 3em;
-}
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 1.5em;
+      z-index: 999;
+    }
 
-.eaten {
-  animation: flashRed 0.8s ease;
-}
+    .overlay button {
+      margin-top: 20px;
+      font-size: 3em;
+    }
 
-@keyframes flashRed {
-  0% { background-color: crimson; }
-  100% { background-color: transparent; }
-}
+    .eaten {
+      animation: flashRed 0.8s ease;
+    }
 
-@keyframes thiefJump {
-  0% { transform: translateY(0); }
-  30% { transform: translateY(-30px); }
-  60% { transform: translateY(0); }
-  100% { transform: translateY(0); }
-}
+    @keyframes flashRed {
+      0% { background-color: crimson; }
+      100% { background-color: transparent; }
+    }
 
-.thief-jump {
-  animation: thiefJump 0.6s ease;
-}
+    @keyframes thiefJump {
+      0% { transform: translateY(0); }
+      30% { transform: translateY(-30px); }
+      60% { transform: translateY(0); }
+      100% { transform: translateY(0); }
+    }
 
-@media (orientation: portrait) {
-  body::before {
-    content: "Please rotate your device to landscape mode.";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9);
-    padding: 50px;
-    border-radius: 20px;
-    font-size: 3em;
-    color: #333;
-    text-align: center;
-    z-index: 1000;
-  }
-  .scene {
-    display: none;
-  }
-}
+    .thief-jump {
+      animation: thiefJump 0.6s ease;
+    }
 
+    @media (orientation: portrait) {
+      body::before {
+        content: "Please rotate your device to landscape mode.";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 50px;
+        border-radius: 20px;
+        font-size: 3em;
+        color: #333;
+        text-align: center;
+        z-index: 1000;
+      }
+      .scene {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -155,18 +155,47 @@ button {
   <div class="button-container">
     <button onclick="moveBoat()">Move</button>
     <button onclick="resetGame()">Reset</button>
-  </div>  <img id="redman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redman.png">
+    <button onclick="showRules()">Rules</button>
+  </div>
+
+  <img id="redman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redman.png">
   <img id="blueman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/blueman.png">
   <img id="yellowman" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowman.png">
   <img id="redbag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/redbag.png">
   <img id="bluebag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/bluebag.png">
-  <img id="yellowbag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowbag.png">  <img class="boat" id="boat" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/boat.png">  <div class="island left"></div>
+  <img id="yellowbag" class="character" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/yellowbag.png">
+  <img class="boat" id="boat" src="https://raw.githubusercontent.com/rk5021100/assets/main/photos/boat.png">
+
+  <div class="island left"></div>
   <div class="island right"></div>
-  <div class="river"></div>  <div id="overlay" class="overlay">
+  <div class="river"></div>
+
+  <!-- Win/Lose Overlay -->
+  <div id="overlay" class="overlay">
     <div id="message"></div>
     <button onclick="resetGame()">Restart</button>
   </div>
-</div><script>
+
+  <!-- Rules Overlay -->
+  <div id="rulesOverlay" class="overlay">
+    <div style="max-width: 90vw; max-height: 80vh; overflow-y: auto; text-align: left; padding: 20px;">
+      <h2 style="text-align: center;">📝 Game Rules</h2>
+      <ul style="line-height: 1.8; font-size: 1em;">
+        <li>🎯 <b>Objective:</b> Get all 3 thieves and 3 gold bags to the right island safely.</li>
+        <li>🚤 <b>Boat:</b> Can carry up to 2 characters. At least one thief is required to move the boat.</li>
+        <li>👆 <b>Tap:</b> Tap characters to load/unload them from the boat.</li>
+        <li>💥 <b>Greed:</b> If a thief is left alone with a bag containing more coins than their own, they will steal it and run away.</li>
+       <li>✅ <b>Betrayal</b>  If two thieves are left together on either bank or in the boat with bags containing more than their combined total, they will betray the missing thief and escape with the money.</li>
+        <li>🏁 <b>Win:</b> The goal is to get all three thieves and their bags across the river safely, without anyone stealing or being betrayed.</li>
+      </ul>
+      <div style="text-align: center; margin-top: 20px;">
+        <button onclick="closeRules()" style="font-size: 2em;">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
 const boat = document.getElementById("boat");
 const characters = Array.from(document.querySelectorAll(".character"));
 const overlay = document.getElementById("overlay");
@@ -216,10 +245,10 @@ function updatePositions() {
       const offset = boatSide === "left" ? boatLeft : boatRight;
       const seat = boatOccupants.indexOf(id);
       char.style.left = `${offset + (seat === 0 ? 3 : 7)}vw`;
-      char.style.bottom = "24vh";
+      char.style.bottom = "24vh"; // Adjusted to sit lower in the boat
     } else {
       const pos = defaultPositions[id];
-      const left = state === "left" ? pos.left : 76 + pos.left;
+      const left = state === "left" ? pos.left : 72 + pos.left;
       char.style.left = `${left}vw`;
       char.style.bottom = `${pos.bottom}vh`;
     }
@@ -288,6 +317,15 @@ function resetGame() {
   updatePositions();
 }
 
+// Show/hide rules overlay
+function showRules() {
+  document.getElementById("rulesOverlay").style.display = "flex";
+}
+function closeRules() {
+  document.getElementById("rulesOverlay").style.display = "none";
+}
+
 updatePositions();
-</script></body>
+</script>
+</body>
 </html>
