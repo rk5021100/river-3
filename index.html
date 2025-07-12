@@ -96,6 +96,7 @@
       height: 100vh;
       background: rgba(0, 0, 0, 0.7);
       display: none;
+      colour:white
       justify-content: center;
       align-items: center;
       flex-direction: column;
@@ -178,7 +179,7 @@
 
   <!-- Rules Overlay -->
   <div id="rulesOverlay" class="overlay">
-    <div style="max-width: 90vw; max-height: 80vh; overflow-y: auto; text-align: justify;background: white;
+    <div style="max-width: 90vw; max-height: 80vh; overflow-y: auto; text-align: justify;background: black;
 border-radius: 20px; padding: 30px 40px;">
       <h2 style="text-align: center;">📝 Game Rules</h2>
       <ul style="line-height: 1.8; font-size: 1em;">
@@ -249,7 +250,7 @@ function updatePositions() {
       char.style.bottom = "24vh"; // Adjusted to sit lower in the boat
     } else {
       const pos = defaultPositions[id];
-      const left = state === "left" ? pos.left : 72 + pos.left;
+      const left = state === "left" ? pos.left : 75 + pos.left;
       char.style.left = `${left}vw`;
       char.style.bottom = `${pos.bottom}vh`;
     }
