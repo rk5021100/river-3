@@ -49,9 +49,9 @@
 }
 
 /* Custom Sizes */
-#redman { width: 18vh; }
-#blueman { width: 18vh; }
-#yellowman { width: 18vh; }
+#redman { width: 10vh; }
+#blueman { width: 9vh; }
+#yellowman { width: 9vh; }
 #redbag { width: 12vh; }
 #bluebag { width: 12vh; }
 #yellowbag { width: 12vh; }
@@ -211,7 +211,7 @@ function updatePositions() {
     const id = char.id;
     const state = characterState[id];
     const isInBoat = state === "boat";
-    char.style.zIndex = isInBoat ? "3" : "5";
+    char.style.zIndex = isInBoat ? "2" : "5";
     if (isInBoat) {
       const offset = boatSide === "left" ? boatLeft : boatRight;
       const seat = boatOccupants.indexOf(id);
