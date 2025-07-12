@@ -216,10 +216,10 @@ function updatePositions() {
       const offset = boatSide === "left" ? boatLeft : boatRight;
       const seat = boatOccupants.indexOf(id);
       char.style.left = `${offset + (seat === 0 ? 3 : 7)}vw`;
-      char.style.bottom = "28vh";
+      char.style.bottom = "24vh";
     } else {
       const pos = defaultPositions[id];
-      const left = state === "left" ? pos.left : 72 + pos.left;
+      const left = state === "left" ? pos.left : 76 + pos.left;
       char.style.left = `${left}vw`;
       char.style.bottom = `${pos.bottom}vh`;
     }
